@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.ia.dao.IaHealthCheckDao">
+    
+	<sql id="iaHealthCheckColumns">
+		a.id AS "id",
+		a.ic_id AS "icId",
+		a.name AS "name",
+		a.no AS "no",
+		a.check_date AS "checkDate",
+		a.doctor AS "doctor",
+		a.symptom AS "symptom",
+		a.animal_heat AS "animalHeat",
+		a.pulse_rate AS "pulseRate",
+		a.respiratory_rate AS "respiratoryRate",
+		a.blood_left AS "bloodLeft",
+		a.blood_right AS "bloodRight",
+		a.height AS "height",
+		a.weight AS "weight",
+		a.waist AS "waist",
+		a.bmi AS "bmi",
+		a.health_assessment AS "healthAssessment",
+		a.ability_assessment AS "abilityAssessment",
+		a.know_ability AS "knowAbility",
+		a.emotion AS "emotion",
+		a.physical_training AS "physicalTraining",
+		a.eating_habits AS "eatingHabits",
+		a.smoking_condition AS "smokingCondition",
+		a.drinking_condition AS "drinkingCondition",
+		a.occupational_hazard AS "occupationalHazard",
+		a.mouth AS "mouth",
+		a.eyesight AS "eyesight",
+		a.listening AS "listening",
+		a.motor_function AS "motorFunction",
+		a.fundus AS "fundus",
+		a.skin AS "skin",
+		a.sclera AS "sclera",
+		a.lymph_node AS "lymphNode",
+		a.lung AS "lung",
+		a.heart AS "heart",
+		a.abdomen AS "abdomen",
+		a.legs_edema AS "legsEdema",
+		a.dorsalis_pedis AS "dorsalisPedis",
+		a.dre AS "dre",
+		a.breast AS "breast",
+		a.gynecology AS "gynecology",
+		a.physical_other AS "physicalOther",
+		a.blood_routine AS "bloodRoutine",
+		a.urine_routine AS "urineRoutine",
+		a.glu AS "glu",
+		a.ecg AS "ecg",
+		a.mau AS "mau",
+		a.occult_blood AS "occultBlood",
+		a.glycated_hemoglobin AS "glycatedHemoglobin",
+		a.hbsag AS "hbsag",
+		a.liver_function AS "liverFunction",
+		a.renal_function AS "renalFunction",
+		a.blood_fat AS "bloodFat",
+		a.chest_xray AS "chestXray",
+		a.b_ultrasound AS "bultrasound",
+		a.pap_smear AS "papSmear",
+		a.assistant_other AS "assistantOther",
+		a.bibu AS "bibu",
+		a.cerebrovascular AS "cerebrovascular",
+		a.kidney AS "kidney",
+		a.heart_disease AS "heartDisease",
+		a.vascular AS "vascular",
+		a.eye_disease AS "eyeDisease",
+		a.nervous_disease AS "nervousDisease",
+		a.current_other AS "currentOther",
+		a.in_hospital AS "inHospital",
+		a.family_ward AS "familyWard",
+		a.hospital_course AS "hospitalCourse",
+		a.vaccination AS "vaccination",
+		a.health_evaluation AS "healthEvaluation",
+		a.health_guidance AS "healthGuidance",
+		a.hazards AS "hazards",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="iaHealthCheckJoins">
+	</sql>
+    
+	<select id="get" resultType="IaHealthCheck">
+		SELECT 
+			<include refid="iaHealthCheckColumns"/>
+		FROM ia_health_check a
+		<include refid="iaHealthCheckJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByIcId" resultType="IaHealthCheck">
+		SELECT 
+			<include refid="iaHealthCheckColumns"/>
+		FROM ia_health_check a
+		<include refid="iaHealthCheckJoins"/>
+		WHERE a.ic_id = #{ic_id}
+	</select>
+	
+	<select id="findList" resultType="IaHealthCheck">
+		SELECT 
+			<include refid="iaHealthCheckColumns"/>
+		FROM ia_health_check a
+		<include refid="iaHealthCheckJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="IaHealthCheck">
+		SELECT 
+			<include refid="iaHealthCheckColumns"/>
+		FROM ia_health_check a
+		<include refid="iaHealthCheckJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ia_health_check(
+			id,
+			ic_id,
+			name,
+			no,
+			check_date,
+			doctor,
+			symptom,
+			animal_heat,
+			pulse_rate,
+			respiratory_rate,
+			blood_left,
+			blood_right,
+			height,
+			weight,
+			waist,
+			bmi,
+			health_assessment,
+			ability_assessment,
+			know_ability,
+			emotion,
+			physical_training,
+			eating_habits,
+			smoking_condition,
+			drinking_condition,
+			occupational_hazard,
+			mouth,
+			eyesight,
+			listening,
+			motor_function,
+			fundus,
+			skin,
+			sclera,
+			lymph_node,
+			lung,
+			heart,
+			abdomen,
+			legs_edema,
+			dorsalis_pedis,
+			dre,
+			breast,
+			gynecology,
+			physical_other,
+			blood_routine,
+			urine_routine,
+			glu,
+			ecg,
+			mau,
+			occult_blood,
+			glycated_hemoglobin,
+			hbsag,
+			liver_function,
+			renal_function,
+			blood_fat,
+			chest_xray,
+			b_ultrasound,
+			pap_smear,
+			assistant_other,
+			bibu,
+			cerebrovascular,
+			kidney,
+			heart_disease,
+			vascular,
+			eye_disease,
+			nervous_disease,
+			current_other,
+			in_hospital,
+			family_ward,
+			hospital_course,
+			vaccination,
+			health_evaluation,
+			health_guidance,
+			hazards,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{icId},
+			#{name},
+			#{no},
+			#{checkDate},
+			#{doctor},
+			#{symptom},
+			#{animalHeat},
+			#{pulseRate},
+			#{respiratoryRate},
+			#{bloodLeft},
+			#{bloodRight},
+			#{height},
+			#{weight},
+			#{waist},
+			#{bmi},
+			#{healthAssessment},
+			#{abilityAssessment},
+			#{knowAbility},
+			#{emotion},
+			#{physicalTraining},
+			#{eatingHabits},
+			#{smokingCondition},
+			#{drinkingCondition},
+			#{occupationalHazard},
+			#{mouth},
+			#{eyesight},
+			#{listening},
+			#{motorFunction},
+			#{fundus},
+			#{skin},
+			#{sclera},
+			#{lymphNode},
+			#{lung},
+			#{heart},
+			#{abdomen},
+			#{legsEdema},
+			#{dorsalisPedis},
+			#{dre},
+			#{breast},
+			#{gynecology},
+			#{physicalOther},
+			#{bloodRoutine},
+			#{urineRoutine},
+			#{glu},
+			#{ecg},
+			#{mau},
+			#{occultBlood},
+			#{glycatedHemoglobin},
+			#{hbsag},
+			#{liverFunction},
+			#{renalFunction},
+			#{bloodFat},
+			#{chestXray},
+			#{bultrasound},
+			#{papSmear},
+			#{assistantOther},
+			#{bibu},
+			#{cerebrovascular},
+			#{kidney},
+			#{heartDisease},
+			#{vascular},
+			#{eyeDisease},
+			#{nervousDisease},
+			#{currentOther},
+			#{inHospital},
+			#{familyWard},
+			#{hospitalCourse},
+			#{vaccination},
+			#{healthEvaluation},
+			#{healthGuidance},
+			#{hazards},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ia_health_check SET 	
+			ic_id = #{icId},
+			name = #{name},
+			no = #{no},
+			check_date = #{checkDate},
+			doctor = #{doctor},
+			symptom = #{symptom},
+			animal_heat = #{animalHeat},
+			pulse_rate = #{pulseRate},
+			respiratory_rate = #{respiratoryRate},
+			blood_left = #{bloodLeft},
+			blood_right = #{bloodRight},
+			height = #{height},
+			weight = #{weight},
+			waist = #{waist},
+			bmi = #{bmi},
+			health_assessment = #{healthAssessment},
+			ability_assessment = #{abilityAssessment},
+			know_ability = #{knowAbility},
+			emotion = #{emotion},
+			physical_training = #{physicalTraining},
+			eating_habits = #{eatingHabits},
+			smoking_condition = #{smokingCondition},
+			drinking_condition = #{drinkingCondition},
+			occupational_hazard = #{occupationalHazard},
+			mouth = #{mouth},
+			eyesight = #{eyesight},
+			listening = #{listening},
+			motor_function = #{motorFunction},
+			fundus = #{fundus},
+			skin = #{skin},
+			sclera = #{sclera},
+			lymph_node = #{lymphNode},
+			lung = #{lung},
+			heart = #{heart},
+			abdomen = #{abdomen},
+			legs_edema = #{legsEdema},
+			dorsalis_pedis = #{dorsalisPedis},
+			dre = #{dre},
+			breast = #{breast},
+			gynecology = #{gynecology},
+			physical_other = #{physicalOther},
+			blood_routine = #{bloodRoutine},
+			urine_routine = #{urineRoutine},
+			glu = #{glu},
+			ecg = #{ecg},
+			mau = #{mau},
+			occult_blood = #{occultBlood},
+			glycated_hemoglobin = #{glycatedHemoglobin},
+			hbsag = #{hbsag},
+			liver_function = #{liverFunction},
+			renal_function = #{renalFunction},
+			blood_fat = #{bloodFat},
+			chest_xray = #{chestXray},
+			b_ultrasound = #{bultrasound},
+			pap_smear = #{papSmear},
+			assistant_other = #{assistantOther},
+			bibu = #{bibu},
+			cerebrovascular = #{cerebrovascular},
+			kidney = #{kidney},
+			heart_disease = #{heartDisease},
+			vascular = #{vascular},
+			eye_disease = #{eyeDisease},
+			nervous_disease = #{nervousDisease},
+			current_other = #{currentOther},
+			in_hospital = #{inHospital},
+			family_ward = #{familyWard},
+			hospital_course = #{hospitalCourse},
+			vaccination = #{vaccination},
+			health_evaluation = #{healthEvaluation},
+			health_guidance = #{healthGuidance},
+			hazards = #{hazards},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE ia_health_check SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

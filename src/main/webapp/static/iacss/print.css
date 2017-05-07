@@ -1,0 +1,67 @@
+body{background:#fff; font-family:"宋体";width:700px;margin:0 auto;text-align:left; font-size:14px; line-height:1.6;}
+.btn{display:inline-block;*display:inline;padding:4px 12px;margin-bottom:0;*margin-left:.3em;font-size:14px;line-height:20px;color:#333;text-align:center;text-shadow:0 1px 1px rgba(255,255,255,0.75);vertical-align:middle;cursor:pointer;background-color:#f5f5f5;*background-color:#e6e6e6;background-image:-moz-linear-gradient(top,#fff,#e6e6e6);background-image:-webkit-gradient(linear,0 0,0 100%,from(#fff),to(#e6e6e6));background-image:-webkit-linear-gradient(top,#fff,#e6e6e6);background-image:-o-linear-gradient(top,#fff,#e6e6e6);background-image:linear-gradient(to bottom,#fff,#e6e6e6);background-repeat:repeat-x;border:1px solid #ccc;*border:0;border-color:#e6e6e6 #e6e6e6 #bfbfbf;border-color:rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);border-bottom-color:#b3b3b3;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff',endColorstr='#ffe6e6e6',GradientType=0);filter:progid:DXImageTransform.Microsoft.gradient(enabled=false);*zoom:1;-webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);-moz-box-shadow:inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);box-shadow:inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05)}.btn:hover,.btn:focus,.btn:active,.btn.active,.btn.disabled,.btn[disabled]{color:#333;background-color:#e6e6e6;*background-color:#d9d9d9}.btn:active,.btn.active{background-color:#ccc \9}
+
+.btn-primary.active,
+.btn-warning.active,
+.btn-danger.active,
+.btn-success.active,
+.btn-info.active,
+.btn-inverse.active {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.btn-primary{color:#fff;text-shadow:0 -1px 0 rgba(0,0,0,0.25);background-color:#2f92e7;*background-color:#2f76e7;background-image:-moz-linear-gradient(top,#2fa4e7,#2f76e7);background-image:-webkit-gradient(linear,0 0,0 100%,from(#2fa4e7),to(#2f76e7));background-image:-webkit-linear-gradient(top,#2fa4e7,#2f76e7);background-image:-o-linear-gradient(top,#2fa4e7,#2f76e7);background-image:linear-gradient(to bottom,#2fa4e7,#2f76e7);background-repeat:repeat-x;border-color:#2f76e7 #2f76e7 #1553b5;border-color:rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff2fa4e7',endColorstr='#ff2f76e7',GradientType=0);filter:progid:DXImageTransform.Microsoft.gradient(enabled=false)}.btn-primary:hover,.btn-primary:focus,.btn-primary:active,.btn-primary.active,.btn-primary.disabled,.btn-primary[disabled]{color:#fff;background-color:#2f76e7;*background-color:#1a67e2}.btn-primary:active,.btn-primary.active{background-color:#175dcc \9}
+table{border-collapse:collapse;border-color:#000; margin-top:-1px;page-break-inside: avoid;table-layout:fixed;}
+input{text-align:center;}
+td{border-color:#000; padding:0px 3px;border-collapse:collapse;}
+.div700{border:1px solid #000;width:649px; height:900px;margin:0 auto; padding:3px;}
+.txt{width:12px;height:12px;line-height:12px;border:1px solid #000;}
+.border0{border:0 solid #ccc;background:transparent; width:100%; height:100%; font-size:16px;}
+.bordertop0{border-top:0;}
+.fleft{float:left;}
+.fright{float:right; margin-right:6px;}
+.borderBot1{
+	border:0;
+	border-bottom:1px solid #000;
+	background:transparent;
+	font-size:16px;
+}
+.borderBot0{border-bottom:0;}
+label{margin-right:3px; }
+#jatoolsPrinter{height:0;}
+.width376{width:370px;}
+.width320{width:321px;}
+.width280{width:216px;}
+.txtarea{width:100%;border:0 solid #ccc;background:transparent; overflow:hidden;}
+.margint2{margin-top:2px;}
+.width70{width:96px; text-align:left; text-align:justify; font-size:18px; }
+.width116{width:145px; text-align:left;}
+.font18{
+	font-size:25px;
+	margin:0;
+	margin-top:10px;
+}
+.textleft{text-align:left;}
+.firttr{
+	border:0 solid #fff; height:0; border-color:#fff; background:#fff;
+}
+.yctxt{
+	width:42px;
+	margin:0 6px;
+}
+.yctxt .borderBot1{
+	width:42%;
+	float:left;
+	height:10px;
+	font-size:10px;
+}
+.yctxt .borderBot0{border-bottom:0;}
+.yctxt .borderLeft1{border-left:1px solid #000;}
+.nameSty{font-size:18px;}
+.textindent{
+	text-indent:28px;
+}
+.explain{
+	padding:20px;
+	padding-top:10px;
+}

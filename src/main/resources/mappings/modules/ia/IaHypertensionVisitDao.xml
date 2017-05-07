@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.ia.dao.IaHypertensionVisitDao">
+    
+	<sql id="iaHypertensionVisitColumns">
+		a.id AS "id",
+		a.ic_id AS "icId",
+		a.name AS "name",
+		a.no AS "no",
+		a.follow_date AS "followDate",
+		a.follow_way AS "followWay",
+		a.symptom AS "symptom",
+		a.symptom_other AS "symptomOther",
+		a.blood_pressure AS "bloodPressure",
+		a.weight AS "weight",
+		a.body_mass_index AS "bodyMassIndex",
+		a.heart_rate AS "heartRate",
+		a.other AS "other",
+		a.day_smoking AS "daySmoking",
+		a.day_drinking AS "dayDrinking",
+		a.sports AS "sports",
+		a.salt_uptake AS "saltUptake",
+		a.psychological_adjustment AS "psychologicalAdjustment",
+		a.compliance_behavior AS "complianceBehavior",
+		a.supplementary_examination AS "supplementaryExamination",
+		a.medication_compliance AS "medicationCompliance",
+		a.adverse_drug_reaction AS "adverseDrugReaction",
+		a.follow_visit_classification AS "followVisitClassification",
+		a.medication_situation AS "medicationSituation",
+		a.referral AS "referral",
+		a.next_follow_date AS "nextFollowDate",
+		a.follow_doctor_sign AS "followDoctorSign"
+	</sql>
+	
+	<sql id="iaHypertensionVisitJoins">
+	</sql>
+    
+	<select id="get" resultType="IaHypertensionVisit">
+		SELECT 
+			<include refid="iaHypertensionVisitColumns"/>
+		FROM ia_hypertension_visit a
+		<include refid="iaHypertensionVisitJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="IaHypertensionVisit">
+		SELECT 
+			<include refid="iaHypertensionVisitColumns"/>
+		FROM ia_hypertension_visit a
+		<include refid="iaHypertensionVisitJoins"/>
+		<where>
+			
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="IaHypertensionVisit">
+		SELECT 
+			<include refid="iaHypertensionVisitColumns"/>
+		FROM ia_hypertension_visit a
+		<include refid="iaHypertensionVisitJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ia_hypertension_visit(
+			id,
+			ic_id,
+			name,
+			no,
+			follow_date,
+			follow_way,
+			symptom,
+			symptom_other,
+			blood_pressure,
+			weight,
+			body_mass_index,
+			heart_rate,
+			other,
+			day_smoking,
+			day_drinking,
+			sports,
+			salt_uptake,
+			psychological_adjustment,
+			compliance_behavior,
+			supplementary_examination,
+			medication_compliance,
+			adverse_drug_reaction,
+			follow_visit_classification,
+			medication_situation,
+			referral,
+			next_follow_date,
+			follow_doctor_sign
+		) VALUES (
+			#{id},
+			#{icId},
+			#{name},
+			#{no},
+			#{followDate},
+			#{followWay},
+			#{symptom},
+			#{symptomOther},
+			#{bloodPressure},
+			#{weight},
+			#{bodyMassIndex},
+			#{heartRate},
+			#{other},
+			#{daySmoking},
+			#{dayDrinking},
+			#{sports},
+			#{saltUptake},
+			#{psychologicalAdjustment},
+			#{complianceBehavior},
+			#{supplementaryExamination},
+			#{medicationCompliance},
+			#{adverseDrugReaction},
+			#{followVisitClassification},
+			#{medicationSituation},
+			#{referral},
+			#{nextFollowDate},
+			#{followDoctorSign}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ia_hypertension_visit SET 	
+			ic_id = #{icId},
+			name = #{name},
+			no = #{no},
+			follow_date = #{followDate},
+			follow_way = #{followWay},
+			symptom = #{symptom},
+			symptom_other = #{symptomOther},
+			blood_pressure = #{bloodPressure},
+			weight = #{weight},
+			body_mass_index = #{bodyMassIndex},
+			heart_rate = #{heartRate},
+			other = #{other},
+			day_smoking = #{daySmoking},
+			day_drinking = #{dayDrinking},
+			sports = #{sports},
+			salt_uptake = #{saltUptake},
+			psychological_adjustment = #{psychologicalAdjustment},
+			compliance_behavior = #{complianceBehavior},
+			supplementary_examination = #{supplementaryExamination},
+			medication_compliance = #{medicationCompliance},
+			adverse_drug_reaction = #{adverseDrugReaction},
+			follow_visit_classification = #{followVisitClassification},
+			medication_situation = #{medicationSituation},
+			referral = #{referral},
+			next_follow_date = #{nextFollowDate},
+			follow_doctor_sign = #{followDoctorSign}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ia_hypertension_visit
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 自定义SQL -->
+	<select id="getById" resultType="IaHypertensionVisit">
+		SELECT 
+			<include refid="iaHypertensionVisitColumns"/>
+		FROM ia_hypertension_visit a
+		<include refid="iaHypertensionVisitJoins"/>
+		where a.ic_id = #{icId}
+	</select>
+</mapper>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.ia.dao.IaMentalFollowVisitDao">
+    
+	<sql id="iaMentalFollowVisitColumns">
+		a.id AS "id",
+		a.ic_id AS "icId",
+		a.name AS "name",
+		a.no AS "no",
+		a.any_time AS "anyTime",
+		a.danger AS "danger",
+		a.current_symptoms AS "currentSymptoms",
+		a.insight AS "insight",
+		a.sleep_condition AS "sleepCondition",
+		a.diet_situation AS "dietSituation",
+		a.personal_lifestyle AS "personalLifestyle",
+		a.housework AS "housework",
+		a.productive_work AS "productiveWork",
+		a.learning_ability AS "learningAbility",
+		a.interpersonal_communication AS "interpersonalCommunication",
+		a.impact_family_society AS "impactFamilySociety",
+		a.lock_condition AS "lockCondition",
+		a.hospitalization AS "hospitalization",
+		a.laboratory_examination AS "laboratoryExamination",
+		a.medication_compliance AS "medicationCompliance",
+		a.adverse_drug_reaction AS "adverseDrugReaction",
+		a.treatment_effect AS "treatmentEffect",
+		a.whether_referral AS "whetherReferral",
+		a.medication_situation AS "medicationSituation",
+		a.rehabilitation_measures AS "rehabilitationMeasures",
+		a.follow_visit_classification AS "followVisitClassification",
+		a.next_follow_date AS "nextFollowDate",
+		a.follow_doctor_sign AS "followDoctorSign"
+	</sql>
+	
+	<sql id="iaMentalFollowVisitJoins">
+	</sql>
+    
+	<select id="get" resultType="IaMentalFollowVisit">
+		SELECT 
+			<include refid="iaMentalFollowVisitColumns"/>
+		FROM ia_mental_follow_visit a
+		<include refid="iaMentalFollowVisitJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="IaMentalFollowVisit">
+		SELECT 
+			<include refid="iaMentalFollowVisitColumns"/>
+		FROM ia_mental_follow_visit a
+		<include refid="iaMentalFollowVisitJoins"/>
+		<where>
+			
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="IaMentalFollowVisit">
+		SELECT 
+			<include refid="iaMentalFollowVisitColumns"/>
+		FROM ia_mental_follow_visit a
+		<include refid="iaMentalFollowVisitJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ia_mental_follow_visit(
+			id,
+			ic_id,
+			name,
+			no,
+			any_time,
+			danger,
+			current_symptoms,
+			insight,
+			sleep_condition,
+			diet_situation,
+			personal_lifestyle,
+			housework,
+			productive_work,
+			learning_ability,
+			interpersonal_communication,
+			impact_family_society,
+			lock_condition,
+			hospitalization,
+			laboratory_examination,
+			medication_compliance,
+			adverse_drug_reaction,
+			treatment_effect,
+			whether_referral,
+			medication_situation,
+			rehabilitation_measures,
+			follow_visit_classification,
+			next_follow_date,
+			follow_doctor_sign
+		) VALUES (
+			#{id},
+			#{icId},
+			#{name},
+			#{no},
+			#{anyTime},
+			#{danger},
+			#{currentSymptoms},
+			#{insight},
+			#{sleepCondition},
+			#{dietSituation},
+			#{personalLifestyle},
+			#{housework},
+			#{productiveWork},
+			#{learningAbility},
+			#{interpersonalCommunication},
+			#{impactFamilySociety},
+			#{lockCondition},
+			#{hospitalization},
+			#{laboratoryExamination},
+			#{medicationCompliance},
+			#{adverseDrugReaction},
+			#{treatmentEffect},
+			#{whetherReferral},
+			#{medicationSituation},
+			#{rehabilitationMeasures},
+			#{followVisitClassification},
+			#{nextFollowDate},
+			#{followDoctorSign}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ia_mental_follow_visit SET 	
+			ic_id = #{icId},
+			name = #{name},
+			no = #{no},
+			any_time = #{anyTime},
+			danger = #{danger},
+			current_symptoms = #{currentSymptoms},
+			insight = #{insight},
+			sleep_condition = #{sleepCondition},
+			diet_situation = #{dietSituation},
+			personal_lifestyle = #{personalLifestyle},
+			housework = #{housework},
+			productive_work = #{productiveWork},
+			learning_ability = #{learningAbility},
+			interpersonal_communication = #{interpersonalCommunication},
+			impact_family_society = #{impactFamilySociety},
+			lock_condition = #{lockCondition},
+			hospitalization = #{hospitalization},
+			laboratory_examination = #{laboratoryExamination},
+			medication_compliance = #{medicationCompliance},
+			adverse_drug_reaction = #{adverseDrugReaction},
+			treatment_effect = #{treatmentEffect},
+			whether_referral = #{whetherReferral},
+			medication_situation = #{medicationSituation},
+			rehabilitation_measures = #{rehabilitationMeasures},
+			follow_visit_classification = #{followVisitClassification},
+			next_follow_date = #{nextFollowDate},
+			follow_doctor_sign = #{followDoctorSign}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ia_mental_follow_visit
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 自定义SQL -->
+	<select id="getById" resultType="IaMentalFollowVisit">
+		SELECT 
+			<include refid="iaMentalFollowVisitColumns"/>
+		FROM ia_mental_follow_visit a
+		<include refid="iaMentalFollowVisitJoins"/>
+		where a.ic_id = #{icId}
+	</select>
+</mapper>

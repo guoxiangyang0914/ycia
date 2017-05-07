@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.ia.dao.IaMentalDiseaseInfoDao">
+    
+	<sql id="iaMentalDiseaseInfoColumns">
+		a.id AS "id",
+		a.ic_id AS "icId",
+		a.name AS "name",
+		a.no AS "no",
+		a.guardian AS "guardian",
+		a.relationship AS "relationship",
+		a.address AS "address",
+		a.tel AS "tel",
+		a.committeer_tel AS "committeerTel",
+		a.agree AS "agree",
+		a.first_happen_time AS "firstHappenTime",
+		a.main_symptom AS "mainSymptom",
+		a.outpatient_department AS "outpatientDepartment",
+		a.hospitalization AS "hospitalization",
+		a.current_diagnosis AS "currentDiagnosis",
+		a.recent_treatment_effect AS "recentTreatmentEffect",
+		a.impact_family_society AS "impactFamilySociety",
+		a.lock_condition AS "lockCondition",
+		a.economic_situation AS "economicSituation",
+		a.specialist_opinion AS "specialistOpinion",
+		a.fill_date AS "fillDate",
+		a.doctor_signature AS "doctorSignature"
+	</sql>
+	
+	<sql id="iaMentalDiseaseInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="IaMentalDiseaseInfo">
+		SELECT 
+			<include refid="iaMentalDiseaseInfoColumns"/>
+		FROM ia_mental_disease_info a
+		<include refid="iaMentalDiseaseInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="IaMentalDiseaseInfo">
+		SELECT 
+			<include refid="iaMentalDiseaseInfoColumns"/>
+		FROM ia_mental_disease_info a
+		<include refid="iaMentalDiseaseInfoJoins"/>
+		<where>
+			
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="IaMentalDiseaseInfo">
+		SELECT 
+			<include refid="iaMentalDiseaseInfoColumns"/>
+		FROM ia_mental_disease_info a
+		<include refid="iaMentalDiseaseInfoJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ia_mental_disease_info(
+			id,
+			ic_id,
+			name,
+			no,
+			guardian,
+			relationship,
+			address,
+			tel,
+			committeer_tel,
+			agree,
+			first_happen_time,
+			main_symptom,
+			outpatient_department,
+			hospitalization,
+			current_diagnosis,
+			recent_treatment_effect,
+			impact_family_society,
+			lock_condition,
+			economic_situation,
+			specialist_opinion,
+			fill_date,
+			doctor_signature
+		) VALUES (
+			#{id},
+			#{icId},
+			#{name},
+			#{no},
+			#{guardian},
+			#{relationship},
+			#{address},
+			#{tel},
+			#{committeerTel},
+			#{agree},
+			#{firstHappenTime},
+			#{mainSymptom},
+			#{outpatientDepartment},
+			#{hospitalization},
+			#{currentDiagnosis},
+			#{recentTreatmentEffect},
+			#{impactFamilySociety},
+			#{lockCondition},
+			#{economicSituation},
+			#{specialistOpinion},
+			#{fillDate},
+			#{doctorSignature}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ia_mental_disease_info SET 	
+			ic_id = #{icId},
+			name = #{name},
+			no = #{no},
+			guardian = #{guardian},
+			relationship = #{relationship},
+			address = #{address},
+			tel = #{tel},
+			committeer_tel = #{committeerTel},
+			agree = #{agree},
+			first_happen_time = #{firstHappenTime},
+			main_symptom = #{mainSymptom},
+			outpatient_department = #{outpatientDepartment},
+			hospitalization = #{hospitalization},
+			current_diagnosis = #{currentDiagnosis},
+			recent_treatment_effect = #{recentTreatmentEffect},
+			impact_family_society = #{impactFamilySociety},
+			lock_condition = #{lockCondition},
+			economic_situation = #{economicSituation},
+			specialist_opinion = #{specialistOpinion},
+			fill_date = #{fillDate},
+			doctor_signature = #{doctorSignature}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ia_mental_disease_info
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 自定义SQL -->
+	<select id="getById" resultType="IaMentalDiseaseInfo">
+		SELECT 
+			<include refid="iaMentalDiseaseInfoColumns"/>
+		FROM ia_mental_disease_info a
+		<include refid="iaMentalDiseaseInfoJoins"/>
+		where a.ic_id = #{icId}
+	</select>
+</mapper>

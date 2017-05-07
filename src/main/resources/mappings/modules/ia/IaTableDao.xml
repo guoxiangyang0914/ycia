@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.ia.dao.IaTableDao">
+    
+	<sql id="iaTableColumns">
+		a.id AS "id",
+		a.table_name AS "tableName",
+		a.num AS "num",
+		a.table_url AS "tableUrl",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="iaTableJoins">
+	</sql>
+    
+	<select id="get" resultType="IaTable">
+		SELECT 
+			<include refid="iaTableColumns"/>
+		FROM ia_table a
+		<include refid="iaTableJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="IaTable">
+		SELECT 
+			<include refid="iaTableColumns"/>
+		FROM ia_table a
+		<include refid="iaTableJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="IaTable">
+		SELECT 
+			<include refid="iaTableColumns"/>
+		FROM ia_table a
+		<include refid="iaTableJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ia_table(
+			id,
+			table_name,
+			table_url,
+			num,
+			del_flag,
+			create_date
+		) VALUES (
+			#{id},
+			#{tableName},
+			#{tableUrl},
+			#{num},
+			#{delFlag},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ia_table SET 	
+			table_name = #{tableName},
+			num = #{num}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE ia_table SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

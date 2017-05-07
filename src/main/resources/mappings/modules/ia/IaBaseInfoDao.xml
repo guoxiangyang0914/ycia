@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.ia.dao.IaBaseInfoDao">
+    
+	<sql id="iaBaseInfoColumns">
+		a.id AS "id",
+		a.ic_id AS "icId",
+		a.no AS "no",
+		a.name AS "name",
+		a.sex AS "sex",
+		a.birth AS "birth",
+		a.card_no AS "cardNo",
+		a.work_unit AS "workUnit",
+		a.tel AS "tel",
+		a.linkman AS "linkman",
+		a.linkman_tel AS "linkmanTel",
+		a.resident AS "resident",
+		a.nation AS "nation",
+		a.blood AS "blood",
+		a.rhf AS "rhf",
+		a.culture AS "culture",
+		a.profession AS "profession",
+		a.marriage AS "marriage",
+		a.pay_type AS "payType",
+		a.drug_allergy AS "drugAllergy",
+		a.exposure AS "exposure",
+		a.disease AS "disease",
+		a.operation AS "operation",
+		a.trauma AS "trauma",
+		a.transfusion AS "transfusion",
+		a.family AS "family",
+		a.genetic AS "genetic",
+		a.disability AS "disability",
+		a.kitchen AS "kitchen",
+		a.fuel_type AS "fuelType",
+		a.drink AS "drink",
+		a.wc AS "wc",
+		a.livestock AS "livestock"
+	</sql>
+	
+	<sql id="iaBaseInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="IaBaseInfo">
+		SELECT 
+			<include refid="iaBaseInfoColumns"/>
+		FROM ia_base_info a
+		<include refid="iaBaseInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="IaBaseInfo">
+		SELECT 
+			<include refid="iaBaseInfoColumns"/>
+		FROM ia_base_info a
+		<include refid="iaBaseInfoJoins"/>
+		<where>
+			
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="cardNo != null and cardNo != ''">
+				AND a.card_no = #{cardNo}
+			</if>
+			<if test="tel != null and tel != ''">
+				AND a.tel = #{tel}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="IaBaseInfo">
+		SELECT 
+			<include refid="iaBaseInfoColumns"/>
+		FROM ia_base_info a
+		<include refid="iaBaseInfoJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ia_base_info(
+			id,
+			ic_id,
+			no,
+			name,
+			sex,
+			birth,
+			card_no,
+			work_unit,
+			tel,
+			linkman,
+			linkman_tel,
+			resident,
+			nation,
+			blood,
+			rhf,
+			culture,
+			profession,
+			marriage,
+			pay_type,
+			drug_allergy,
+			exposure,
+			disease,
+			operation,
+			trauma,
+			transfusion,
+			family,
+			genetic,
+			disability,
+			kitchen,
+			fuel_type,
+			drink,
+			wc,
+			livestock
+		) VALUES (
+			#{id},
+			#{icId},
+			#{no},
+			#{name},
+			#{sex},
+			#{birth},
+			#{cardNo},
+			#{workUnit},
+			#{tel},
+			#{linkman},
+			#{linkmanTel},
+			#{resident},
+			#{nation},
+			#{blood},
+			#{rhf},
+			#{culture},
+			#{profession},
+			#{marriage},
+			#{payType},
+			#{drugAllergy},
+			#{exposure},
+			#{disease},
+			#{operation},
+			#{trauma},
+			#{transfusion},
+			#{family},
+			#{genetic},
+			#{disability},
+			#{kitchen},
+			#{fuelType},
+			#{drink},
+			#{wc},
+			#{livestock}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ia_base_info SET 	
+			ic_id = #{icId},
+			no = #{no},
+			name = #{name},
+			sex = #{sex},
+			birth = #{birth},
+			card_no = #{cardNo},
+			work_unit = #{workUnit},
+			tel = #{tel},
+			linkman = #{linkman},
+			linkman_tel = #{linkmanTel},
+			resident = #{resident},
+			nation = #{nation},
+			blood = #{blood},
+			rhf = #{rhf},
+			culture = #{culture},
+			profession = #{profession},
+			marriage = #{marriage},
+			pay_type = #{payType},
+			drug_allergy = #{drugAllergy},
+			exposure = #{exposure},
+			disease = #{disease},
+			operation = #{operation},
+			trauma = #{trauma},
+			transfusion = #{transfusion},
+			family = #{family},
+			genetic = #{genetic},
+			disability = #{disability},
+			kitchen = #{kitchen},
+			fuel_type = #{fuelType},
+			drink = #{drink},
+			wc = #{wc},
+			livestock = #{livestock}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ia_base_info
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 自定义SQL -->
+	<select id="getById" resultType="IaBaseInfo">
+		SELECT 
+			<include refid="iaBaseInfoColumns"/>
+		FROM ia_base_info a
+		<include refid="iaBaseInfoJoins"/>
+		where a.ic_id = #{icId}
+	</select>
+</mapper>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.ia.dao.IaHealthCardDao">
+    
+	<sql id="iaHealthCardColumns">
+		a.id AS "id",
+		a.ic_id AS "icId",
+		a.name AS "name",
+		a.sex AS "sex",
+		a.birth AS "birth",
+		a.no AS "no",
+		a.aob_blood AS "aobBlood",
+		a.rh_blood AS "rhBlood",
+		a.chronic_disea AS "chronicDisea",
+		a.allergy_history AS "allergyHistory"
+	</sql>
+	
+	<sql id="iaHealthCardJoins">
+	</sql>
+    
+	<select id="get" resultType="IaHealthCard">
+		SELECT 
+			<include refid="iaHealthCardColumns"/>
+		FROM ia_health_card a
+		<include refid="iaHealthCardJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="IaHealthCard">
+		SELECT 
+			<include refid="iaHealthCardColumns"/>
+		FROM ia_health_card a
+		<include refid="iaHealthCardJoins"/>
+		<where>
+			
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="IaHealthCard">
+		SELECT 
+			<include refid="iaHealthCardColumns"/>
+		FROM ia_health_card a
+		<include refid="iaHealthCardJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ia_health_card(
+			id,
+			ic_id,
+			name,
+			sex,
+			birth,
+			no,
+			aob_blood,
+			rh_blood,
+			chronic_disea,
+			allergy_history
+		) VALUES (
+			#{id},
+			#{icId},
+			#{name},
+			#{sex},
+			#{birth},
+			#{no},
+			#{aobBlood},
+			#{rhBlood},
+			#{chronicDisea},
+			#{allergyHistory}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ia_health_card SET 	
+			ic_id = #{icId},
+			name = #{name},
+			sex = #{sex},
+			birth = #{birth},
+			no = #{no},
+			aob_blood = #{aobBlood},
+			rh_blood = #{rhBlood},
+			chronic_disea = #{chronicDisea},
+			allergy_history = #{allergyHistory}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ia_health_card
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 自定义SQL -->
+	<select id="getById" resultType="IaHealthCard">
+		SELECT 
+			<include refid="iaHealthCardColumns"/>
+		FROM ia_health_card a
+		<include refid="iaHealthCardJoins"/>
+		where a.ic_id = #{icId}
+	</select>
+</mapper>

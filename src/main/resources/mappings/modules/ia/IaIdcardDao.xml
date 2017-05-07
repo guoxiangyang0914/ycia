@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.ia.dao.IaIdcardDao">
+    
+	<sql id="iaIdcardColumns">
+		a.id AS "id",
+		a.office_id AS "officeId",
+		a.office_name AS "officeName",
+		a.name AS "name",
+		a.sex AS "sex",
+		a.nation AS "nation",
+		a.birth AS "birth",
+		a.address AS "address",
+		a.card_no AS "cardNo",
+		a.id_issued AS "idIssued",
+		a.effected_date AS "effectedDate",
+		a.expired_date AS "expiredDate",
+		a.picture AS "picture",
+		a.no AS "no",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="iaIdcardJoins">
+	</sql>
+    
+	<select id="get" resultType="IaIdcard">
+		SELECT 
+			<include refid="iaIdcardColumns"/>
+		FROM ia_idcard a
+		<include refid="iaIdcardJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="IaIdcard">
+		SELECT 
+			<include refid="iaIdcardColumns"/>
+		FROM ia_idcard a
+		<include refid="iaIdcardJoins"/>
+		<where>
+			<if test="officeId != null and officeId != ''">
+				AND a.office_id = #{officeId}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="sex != null and sex != ''">
+				AND a.sex = #{sex}
+			</if>
+			<if test="nation != null and nation != ''">
+				AND a.nation = #{nation}
+			</if>
+			<if test="address != null and address != ''">
+				AND a.address LIKE 
+					<if test="dbName == 'oracle'">'%'||#{address}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{address}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{address},'%')</if>
+			</if>
+			<if test="cardNo != null and cardNo != ''">
+				AND a.card_no = #{cardNo}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="IaIdcard">
+		SELECT 
+			<include refid="iaIdcardColumns"/>
+		FROM ia_idcard a
+		<include refid="iaIdcardJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ia_idcard(
+			id,
+			office_id,
+			office_name,
+			name,
+			sex,
+			nation,
+			birth,
+			address,
+			card_no,
+			id_issued,
+			effected_date,
+			expired_date,
+			picture,
+			no,
+			create_date
+		) VALUES (
+			#{id},
+			#{officeId},
+			#{officeName},
+			#{name},
+			#{sex},
+			#{nation},
+			#{birth},
+			#{address},
+			#{cardNo},
+			#{idIssued},
+			#{effectedDate},
+			#{expiredDate},
+			#{picture},
+			#{no},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ia_idcard SET
+		 	office_id = #{officeId},
+		 	office_name = #{officeName},
+			name = #{name},
+			sex = #{sex},
+			nation = #{nation},
+			birth = #{birth},
+			address = #{address},
+			card_no = #{cardNo},
+			id_issued = #{idIssued},
+			effected_date = #{effectedDate},
+			expired_date = #{expiredDate},
+			no = #{no},
+			picture = #{picture}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ia_idcard
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 自定义SQL -->
+	<update id="updateNo">
+		UPDATE ia_idcard SET 	
+			no = #{no}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="getByCarNo" resultType="IaIdcard">
+		SELECT 
+			<include refid="iaIdcardColumns"/>
+		FROM ia_idcard a
+		<include refid="iaIdcardJoins"/>
+		WHERE a.card_no = #{cardNo}
+	</select>
+	
+	<select id="getGroupCount" resultType="IaIdcardDto">
+		<![CDATA[ 
+			SELECT
+				so.id AS officeId,
+				so.`name` AS officeName,
+				count(ii.office_id) AS count,
+				(
+					SELECT
+						count(*)
+					FROM
+						ia_idcard t1
+					WHERE
+						t1.NO LIKE concat('%',#{officeCode},'%')
+				) AS total
+			FROM
+				sys_office so
+			LEFT JOIN ia_idcard ii ON so.id = ii.office_id
+			WHERE
+				so.`code` LIKE concat('%',#{officeCode},'%')
+			GROUP BY
+				so.id
+			ORDER BY
+				count DESC
+		 ]]>
+	</select>
+	
+	<select id="getTableCount" resultType="IaIdcardDto">
+		<![CDATA[ 
+			SELECT
+				ha.office_id AS officeId,
+				ha.archiveCount,
+				bi.baseCount,
+				hc.checkCount,
+				hv.hypertensionCount,
+				dv.diabetesCount,
+				md.diseaseCount,
+				mf.mentalFollowCount
+			FROM
+				(
+					-- ia_health_archive
+					SELECT
+						#{officeCode} AS office_id,
+						count(*) AS archiveCount
+					FROM
+						ia_health_archive
+					WHERE
+						ic_id IN (
+							-- 查询ic_id
+							SELECT
+								id
+							FROM
+								ia_idcard
+							WHERE
+								office_id IN (
+									-- 查询office_id
+									SELECT
+										id
+									FROM
+										sys_office
+									WHERE
+										id = #{officeCode}
+									OR parent_id = #{officeCode}
+								)
+						)
+				) ha
+			LEFT JOIN (
+				-- ia_base_info
+				SELECT
+					#{officeCode} AS office_id,
+					count(*) AS baseCount
+				FROM
+					ia_base_info
+				WHERE
+					ic_id IN (
+						-- 查询ic_id
+						SELECT
+							id
+						FROM
+							ia_idcard
+						WHERE
+							office_id IN (
+								-- 查询office_id
+								SELECT
+									id
+								FROM
+									sys_office
+								WHERE
+									id = #{officeCode}
+								OR parent_id = #{officeCode}
+							)
+					)
+			) bi ON ha.office_id = bi.office_id
+			LEFT JOIN (
+				-- ia_health_check
+				SELECT
+					#{officeCode} AS office_id,
+					count(*) AS checkCount
+				FROM
+					ia_health_check
+				WHERE
+					ic_id IN (
+						-- 查询ic_id
+						SELECT
+							id
+						FROM
+							ia_idcard
+						WHERE
+							office_id IN (
+								-- 查询office_id
+								SELECT
+									id
+								FROM
+									sys_office
+								WHERE
+									id = #{officeCode}
+								OR parent_id = #{officeCode}
+							)
+					)
+			) hc ON bi.office_id = hc.office_id
+			LEFT JOIN (
+				-- ia_health_check
+				SELECT
+					#{officeCode} AS office_id,
+					count(*) AS hypertensionCount
+				FROM
+					ia_hypertension_visit
+				WHERE
+					ic_id IN (
+						-- 查询ic_id
+						SELECT
+							id
+						FROM
+							ia_idcard
+						WHERE
+							office_id IN (
+								-- 查询office_id
+								SELECT
+									id
+								FROM
+									sys_office
+								WHERE
+									id = #{officeCode}
+								OR parent_id = #{officeCode}
+							)
+					)
+			) hv ON bi.office_id = hv.office_id
+			LEFT JOIN (
+				-- ia_health_check
+				SELECT
+					#{officeCode} AS office_id,
+					count(*) AS diabetesCount
+				FROM
+					ia_diabetes_visit
+				WHERE
+					ic_id IN (
+						-- 查询ic_id
+						SELECT
+							id
+						FROM
+							ia_idcard
+						WHERE
+							office_id IN (
+								-- 查询office_id
+								SELECT
+									id
+								FROM
+									sys_office
+								WHERE
+									id = #{officeCode}
+								OR parent_id = #{officeCode}
+							)
+					)
+			) dv ON bi.office_id = dv.office_id
+			LEFT JOIN (
+				-- ia_health_check
+				SELECT
+					#{officeCode} AS office_id,
+					count(*) AS diseaseCount
+				FROM
+					ia_mental_disease_info
+				WHERE
+					ic_id IN (
+						-- 查询ic_id
+						SELECT
+							id
+						FROM
+							ia_idcard
+						WHERE
+							office_id IN (
+								-- 查询office_id
+								SELECT
+									id
+								FROM
+									sys_office
+								WHERE
+									id = #{officeCode}
+								OR parent_id = #{officeCode}
+							)
+					)
+			) md ON bi.office_id = md.office_id
+			LEFT JOIN (
+				-- ia_health_check
+				SELECT
+					#{officeCode} AS office_id,
+					count(*) AS mentalFollowCount
+				FROM
+					ia_mental_follow_visit
+				WHERE
+					ic_id IN (
+						-- 查询ic_id
+						SELECT
+							id
+						FROM
+							ia_idcard
+						WHERE
+							office_id IN (
+								-- 查询office_id
+								SELECT
+									id
+								FROM
+									sys_office
+								WHERE
+									id = #{officeCode}
+								OR parent_id = #{officeCode}
+							)
+					)
+			) mf ON bi.office_id = mf.office_id
+		 ]]>
+	</select>
+</mapper>
